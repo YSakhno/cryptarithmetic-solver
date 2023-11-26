@@ -1,0 +1,43 @@
+#
+# This file declares the default version catalog (for more info on Gradle's version catalogs, see
+# https://docs.gradle.org/8.4/userguide/platforms.html).
+#
+# NOTE: The declarations in each of the 4 major sections are ordered alphabetically.  Please maintain this sorting order
+# when inserting new declarations.
+#
+
+[versions]
+detekt = "1.23.1"
+dokka = "1.9.0"
+javaLanguageCompatibility = "11"
+johnrengelmanShadow = "8.1.1"
+kotest = "5.7.2"
+kotlin = "1.9.20"
+kotlinter = "3.16.0"
+kotlinxCoroutines = "1.7.3"
+kotlinxKover = "0.7.4"
+ktlint = "0.50.0"
+
+[plugins]
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "johnrengelmanShadow" }
+kotlinter = { id = "org.jmailen.kotlinter", version.ref = "kotlinter" }
+kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinxKover" }
+
+[libraries]
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinxCoroutines" }
+detekt-rules-libraries = { module = "io.gitlab.arturbosch.detekt:detekt-rules-libraries", version.ref = "detekt" }
+kotest-api = { module = "io.kotest:kotest-framework-api-jvm", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core-jvm", version.ref = "kotest" }
+kotest-datatest = { module = "io.kotest:kotest-framework-datatest", version.ref = "kotest" }
+kotest-engine = { module = "io.kotest:kotest-framework-engine-jvm", version.ref = "kotest" }
+kotest-extensions = { module = "io.kotest:kotest-extensions-jvm", version.ref = "kotest" }
+kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+kotest-runner = { module = "io.kotest:kotest-runner-junit5-jvm", version.ref = "kotest" }
+pinterest-ktlint = { module = "com.pinterest:ktlint", version.ref = "ktlint" }
+
+[bundles]
+kotest = [
+    "kotest-api", "kotest-assertions", "kotest-datatest", "kotest-engine", "kotest-extensions", "kotest-property",
+]

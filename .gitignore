@@ -1,0 +1,36 @@
+### Gradle ###
+/.gradle/
+build/
+
+### Eclipse ###
+.metadata/
+.settings/
+bin/
+.checkstyle
+.classpath
+.loadpath
+.project
+*.launch
+
+### Intellij ###
+.idea/
+out/
+*.iml
+*.ipr
+*.iws
+
+### SublimeText + TextMate ###
+*.sublime-workspace
+*.sublime-project
+*.tmproj
+*.tmproject
+
+### Vim ###
+*.sw[op]
+
+### Mac OSX + Windows ###
+.DS_Store
+Thumbs.db
+
+### Project-specific ###
+/tmp/
