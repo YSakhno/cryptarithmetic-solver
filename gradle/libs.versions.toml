@@ -7,7 +7,7 @@
 #
 
 [versions]
-detekt = "1.23.1"
+detekt = "1.23.4"
 dokka = "1.9.0"
 javaLanguageCompatibility = "11"
 johnrengelmanShadow = "8.1.1"

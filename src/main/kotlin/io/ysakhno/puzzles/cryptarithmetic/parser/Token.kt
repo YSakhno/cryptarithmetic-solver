@@ -27,4 +27,5 @@ fun Token.performBinaryOperation(lhs: Int, rhs: Int) = type.binaryOperation?.let
 val EOE_TOKEN = Token(EOE, "")
 
 /** Returns the end-of-expression token.  Always returns the same token object. */
+@Suppress("detekt:FunctionMinLength") // Exception is made here pfor the end-of-expression acronym
 fun eoe() = EOE_TOKEN

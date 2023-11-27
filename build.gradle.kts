@@ -1,3 +1,4 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -6,6 +7,7 @@ plugins {
     application
     alias(libs.plugins.johnrengelman.shadow)
 
+    alias(libs.plugins.detekt)
     alias(libs.plugins.kotlinter)
 
     eclipse
@@ -58,6 +60,20 @@ kotlin {
 
 tasks.test.configure {
     useJUnitPlatform()
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.from("${project.projectDir}/detekt.yaml")
+    ignoreFailures = false
+    parallel = true
+}
+
+tasks.detekt.configure {
+    tasks.withType<Detekt>()
+        .filter { it.project == project }
+        .filterNot { it.name == name }
+        .forEach { this.dependsOn(it) }
 }
 
 kotlinter {
