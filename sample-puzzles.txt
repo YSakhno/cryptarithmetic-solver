@@ -1,0 +1,29 @@
+# All of the puzzles below come from the page Alphametic Puzzles page by Truman Collins
+# (http://www.tkcs-collins.com/truman/alphamet/alphamet.shtml)
+# Only a small subset of puzzles on that page are presented below
+
+# Quotes from notable literature pieces
+SINCE + JULIUS = CAESAR
+HERE + SHE = COMES
+NOT + THIS = YOUTH
+I + WILL + PAY + THE = THEFT
+I + THINK + IT + BE + THINE = INDEED
+THIS + IS + HIS = CLAIM
+AND + NEVER + HEARD = BEFORE
+IF + THOU + DIDST + THIS + DEED + OF = DEATH
+NO + MAN + BEARS + SORROW = BETTER
+WHAT + WAS + THY = CAUSE
+ILL + MAKE + ALL = SPEED
+FOR + LACK + OF = TREAD
+AND + THE + DEATH + OF + A + DEAR = FRIEND
+HIS + HORSE + IS = SLAIN
+I + THINK + HE + CANNOT = CHOOSE
+HAD + I + A + GLASS + I = WOULD
+O + THOU + TOUCH + OF = HEARTS
+TIS + SAD + TITUS = CALLS
+
+# Just mere phrases
+AS + A = MOM
+I + DID = TOO
+NO + NO + TOO = LATE
+OOOH + FOOD = FIGHT
