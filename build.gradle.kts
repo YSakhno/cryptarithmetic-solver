@@ -6,8 +6,16 @@ plugins {
     application
     alias(libs.plugins.johnrengelman.shadow)
 
+    alias(libs.plugins.kotlinter)
+
     eclipse
     idea
+}
+
+buildscript {
+    dependencies {
+        classpath(libs.pinterest.ktlint)
+    }
 }
 
 eclipse {
@@ -50,6 +58,11 @@ kotlin {
 
 tasks.test.configure {
     useJUnitPlatform()
+}
+
+kotlinter {
+    ignoreFailures = false
+    reporters = arrayOf("plain", "checkstyle", "html")
 }
 
 application {
