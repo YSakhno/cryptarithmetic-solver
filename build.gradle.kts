@@ -1,8 +1,13 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.dokka.DokkaConfiguration.Visibility.INTERNAL
+import org.jetbrains.dokka.DokkaConfiguration.Visibility.PROTECTED
+import org.jetbrains.dokka.DokkaConfiguration.Visibility.PUBLIC
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version libs.versions.kotlin.get()
+    alias(libs.plugins.dokka)
 
     application
     alias(libs.plugins.johnrengelman.shadow)
@@ -58,6 +63,15 @@ kotlin {
     }
 }
 
+tasks.withType<DokkaTask>().configureEach {
+    failOnWarning.set(true)
+    dokkaSourceSets.configureEach {
+        reportUndocumented.set(true)
+        documentedVisibilities.set(setOf(PUBLIC, PROTECTED, INTERNAL))
+        jdkVersion.set(libs.versions.javaLanguageCompatibility.get().toInt())
+    }
+}
+
 tasks.test.configure {
     useJUnitPlatform()
 }
@@ -79,6 +93,10 @@ tasks.detekt.configure {
 kotlinter {
     ignoreFailures = false
     reporters = arrayOf("plain", "checkstyle", "html")
+}
+
+tasks.build.configure {
+    dependsOn(tasks.dokkaHtml)
 }
 
 application {
