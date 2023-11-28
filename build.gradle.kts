@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version libs.versions.kotlin.get()
+    alias(libs.plugins.kotlinx.kover)
     alias(libs.plugins.dokka)
 
     application
@@ -74,6 +75,17 @@ tasks.withType<DokkaTask>().configureEach {
 
 tasks.test.configure {
     useJUnitPlatform()
+}
+
+koverReport {
+    defaults {
+        html {
+            onCheck = true
+        }
+        xml {
+            onCheck = true
+        }
+    }
 }
 
 detekt {
