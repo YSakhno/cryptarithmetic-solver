@@ -130,6 +130,7 @@ style:
     active: true
   BracesOnWhenStatements:
     active: true
+    multiLine: necessary
   DataClassContainsFunctions:
     active: true
   DataClassShouldBeImmutable:

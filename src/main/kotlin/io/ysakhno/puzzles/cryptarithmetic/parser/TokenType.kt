@@ -5,19 +5,12 @@ package io.ysakhno.puzzles.cryptarithmetic.parser
  *
  * @property binaryOperation if not `null`, specifies a lambda-function that will perform a binary operation (operation
  * with two operands) corresponding to that particular token type.
- * @property isSkipped whether tokens of this type should be skipped during parsing: `true` if they should be skipped,
- * `false` if they should not.
  * @author Yuri Sakhno
  */
-enum class TokenType(
-    val binaryOperation: ((lhs: Int, rhs: Int) -> Int)? = null,
-    val isSkipped: Boolean = false,
-) {
+enum class TokenType(val binaryOperation: ((lhs: Int, rhs: Int) -> Int)? = null) {
+
     /** Ephemeral (imaginary) token emitted to signify the end of expression. */
     EOE,
-
-    /** All whitespace characters (including line feeds, carriage returns, etc.). */
-    WHITESPACE(isSkipped = true),
 
     /** An integer number literal. */
     NUMBER,

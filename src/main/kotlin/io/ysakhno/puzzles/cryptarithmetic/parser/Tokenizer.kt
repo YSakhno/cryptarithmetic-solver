@@ -13,38 +13,6 @@ import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.NUMBER
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.PLUS
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.RIGHT_PAREN
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.SLASH
-import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.WHITESPACE
-import org.intellij.lang.annotations.Language
-
-private data class TokenSpec(val regex: Regex, val tokenType: TokenType)
-
-@Suppress("FunctionMinLength") // The name of this function is a deliberate play on the similarity to word 'to'
-private infix fun String.ts(type: TokenType) = TokenSpec(toRegex(), type)
-
-@Language("RegExp")
-private val TOKEN_SPECS = listOf(
-    // Spaces, tabs, line separators, etc.
-    """[\001-\040]+""" ts WHITESPACE,
-
-    // Syntactic elements
-    "\\(" ts LEFT_PAREN,
-    "\\)" ts RIGHT_PAREN,
-
-    ">=" ts GREATER_EQUALS,
-    "<=" ts LESS_EQUALS,
-
-    // Single-character operators
-    "\\^" ts CIRCUMFLEX,
-    "\\*" ts ASTERISK,
-    "/" ts SLASH,
-    "\\+" ts PLUS,
-    "-" ts MINUS,
-    "<" ts LESS_THAN,
-    "=" ts EQUALS,
-    ">" ts GREATER_THAN,
-
-    "(?:0|[1-9][0-9]*)\\b" ts NUMBER,
-)
 
 /**
  * Tokenizes the expression and stores the result (list of tokens) in the [tokens] property.
@@ -58,16 +26,50 @@ class Tokenizer(expression: CharSequence) {
     /** The list of tokens tokenized from the original expression. */
     val tokens: List<Token> = tokenize(expression)
 
-    private fun matchTokenRegexp(text: CharSequence, curPos: Int) = TOKEN_SPECS.firstNotNullOfOrNull { tokenSpec ->
-        tokenSpec.regex.matchAt(text, curPos)?.let { it.value to tokenSpec.tokenType }
-    } ?: throw ParsingException("Unrecognizable token sequence at position $curPos")
-
+    @Suppress("CyclomaticComplexMethod") // the method is complex for performance reasons
     private fun tokenize(text: CharSequence) = buildList {
         var curPos = 0
+        @Suppress("LoopWithTooManyJumpStatements") // the loop is complex for performance reasons
         while (curPos < text.length) {
-            val (value, tokenType) = matchTokenRegexp(text, curPos)
-            if (!tokenType.isSkipped) add(Token(tokenType, value))
-            curPos += value.length
+            when (text[curPos]) {
+                '(' -> add(Token(LEFT_PAREN, "("))
+                ')' -> add(Token(RIGHT_PAREN, ")"))
+                '^' -> add(Token(CIRCUMFLEX, "^"))
+                '*' -> add(Token(ASTERISK, "*"))
+                '/' -> add(Token(SLASH, "/"))
+                '+' -> add(Token(PLUS, "+"))
+                '-' -> add(Token(MINUS, "-"))
+                '=' -> add(Token(EQUALS, "="))
+
+                '<' -> if (curPos + 1 < text.length && text[curPos + 1] == '=') {
+                    add(Token(LESS_EQUALS, "<="))
+                    ++curPos
+                } else add(Token(LESS_THAN, "<"))
+
+                '>' -> if (curPos + 1 < text.length && text[curPos + 1] == '=') {
+                    add(Token(GREATER_EQUALS, ">="))
+                    ++curPos
+                } else add(Token(GREATER_THAN, ">"))
+
+                in '0'..'9' -> {
+                    val start = curPos
+                    do {
+                        ++curPos
+                    } while (curPos < text.length && text[curPos] in '0'..'9')
+                    add(Token(NUMBER, text.subSequence(start, curPos)))
+                    continue
+                }
+
+                in '\u0001'..'\u0020' -> {
+                    do {
+                        ++curPos
+                    } while (curPos < text.length && text[curPos] in '\u0001'..'\u0020')
+                    continue
+                }
+
+                else -> throw ParsingException("Unrecognizable token sequence at position $curPos: ${text[curPos]}")
+            }
+            ++curPos
         }
         add(eoe())
     }
