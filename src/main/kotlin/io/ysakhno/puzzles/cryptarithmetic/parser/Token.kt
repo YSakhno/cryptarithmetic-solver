@@ -1,31 +1,19 @@
 package io.ysakhno.puzzles.cryptarithmetic.parser
 
-import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.EOE
-
 /**
  * Represents the token parsed from the input expression.
  *
  * @property type the type of this token
- * @property text the text that corresponds to this token.
+ * @property range the range, in original expression text, where this particular token appears.
  * @author Yuri Sakhno
  */
-data class Token(val type: TokenType, val text: CharSequence)
+data class Token(val type: TokenType, val range: IntRange)
 
 /**
- * Performs the binary operation (such as addition, subtraction, etc.) if any such operation is defined for the
- * particular token [type].
+ * Gets the binary operation (such as addition, subtraction, etc.) if any such operation is defined for the
+ * [type][Token.type] of this particular token.
  *
- * @param lhs the left hand side operand to perform the operation on.
- * @param rhs the right hand side operand to perform the operation on.
- * @return the result of the operation.
- * @throws AssertionError if this method was called on a token that does not have a defined binary operation.
+ * @throws AssertionError if this property was accessed on a token that does not have a defined binary operation.
  */
-fun Token.performBinaryOperation(lhs: Int, rhs: Int) = type.binaryOperation?.let { it(lhs, rhs) }
-    ?: throw AssertionError("Tokens of type $type do not have a binary operation")
-
-/** Constant value for the end-of-expression token. */
-val EOE_TOKEN = Token(EOE, "")
-
-/** Returns the end-of-expression token.  Always returns the same token object. */
-@Suppress("detekt:FunctionMinLength") // Exception is made here pfor the end-of-expression acronym
-fun eoe() = EOE_TOKEN
+val Token.binaryOperation: BinaryOperation
+    get() = type.binaryOperation ?: throw AssertionError("Tokens of type $type do not have a binary operation")

@@ -1,5 +1,8 @@
 package io.ysakhno.puzzles.cryptarithmetic.parser
 
+/** Functional type that describes a function that performs a binary operation on its two operands. */
+typealias BinaryOperation = (lhs: Int, rhs: Int) -> Int
+
 /**
  * Defines all known and supported token types.
  *
@@ -7,13 +10,16 @@ package io.ysakhno.puzzles.cryptarithmetic.parser
  * with two operands) corresponding to that particular token type.
  * @author Yuri Sakhno
  */
-enum class TokenType(val binaryOperation: ((lhs: Int, rhs: Int) -> Int)? = null) {
+enum class TokenType(val binaryOperation: BinaryOperation? = null) {
 
     /** Ephemeral (imaginary) token emitted to signify the end of expression. */
     EOE,
 
     /** An integer number literal. */
     NUMBER,
+
+    /** Variable that should be substituted with digits (and solved). */
+    VARIABLE,
 
     /*
      * Priority (parenthesized expression)
