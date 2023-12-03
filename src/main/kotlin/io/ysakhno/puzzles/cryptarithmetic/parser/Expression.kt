@@ -59,7 +59,7 @@ class VariableExpression(variableToken: Token) : Expression {
         var number = 0
         for (i in tokenRange) {
             number *= DECIMAL
-            number += topExpression.correspondence[topExpression.text[i]] ?: 0
+            number += topExpression.correspondence[topExpression.text[i]]
         }
         return number
     }
