@@ -13,25 +13,24 @@ package io.ysakhno.puzzles.cryptarithmetic
  * there will be no repeated values within a permutation.
  */
 fun <E> Iterable<E>.permutations(r: Int = -1): Sequence<List<E>> = sequence {
-    val pool = toList()
+    val pool = toMutableList()
     val n = pool.size
     val r2 = if (r < 0) n else r
 
     if (r2 > n) return@sequence
 
-    val indices = (0..<n).toMutableList()
     val cycles = (n downTo n - r2 + 1).toList().toIntArray()
 
-    yield(indices.subList(0, r2).map { pool[it] })
+    yield(pool.take(r2))
 
     outer@while (true) {
         for (i in r2 - 1 downTo 0) {
             if (--cycles[i] != 0) {
-                indices.swapAt(i, n - cycles[i])
-                yield(indices.subList(0, r2).map { pool[it] })
+                pool.swapAt(i, n - cycles[i])
+                yield(pool.take(r2))
                 continue@outer
             }
-            indices.add(indices.removeAt(i))
+            pool.add(pool.removeAt(i))
             cycles[i] = n - i
         }
         return@sequence
