@@ -8,6 +8,9 @@ import io.ysakhno.puzzles.cryptarithmetic.parser.parse
 /** Regular expression that finds all letters that occur at the beginning of variables in an expression. */
 private val FIRST_LETTERS = "\\b[A-Z](?=[0-9A-Z])".toRegex()
 
+/** List of all decimal digits, from `0` to `9`, as integer numbers. */
+private val DECIMAL_DIGITS = (0..<DECIMAL).toList()
+
 /**
  * Given a [formula], like `ODD + ODD = EVEN`, fills in digits to solve it and returns a sequence of all possible
  * solutions if there are any.
@@ -25,10 +28,10 @@ fun solve(formula: String): Sequence<String> = sequence {
     if (letters.length > DECIMAL) return@sequence
     val lettersThatCannotBeZero = FIRST_LETTERS.findAll(formula).map { it.value.first() }.toSet()
     val expression = parse(formula)
-    for (digits in "0123456789".permutations(letters.length)) {
+    for (digits in DECIMAL_DIGITS.permutations(letters.length)) {
         val corr = buildCorrespondence(letters, digits)
         if (lettersThatCannotBeZero.none { corr[it] == 0 } && eval(formula, expression, corr) != 0) {
-            yield(formula.translate(makeTrans(letters, digits)))
+            yield(formula.translate(makeTrans(letters, digits.joinToString(separator = ""))))
         }
     }
 }

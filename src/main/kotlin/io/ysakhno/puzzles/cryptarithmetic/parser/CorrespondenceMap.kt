@@ -25,15 +25,15 @@ class CorrespondenceMap internal constructor(private val correspondence: IntArra
 
 /**
  * Builds a [correspondence map][CorrespondenceMap] by matching each character in [src] to a digit represented by each
- * character at the same position in [dst].
+ * number at the same position in [dst].
  *
- * @throws IllegalArgumentException if character sequences [src] and [dst] do not have the same length.
+ * @throws IllegalArgumentException if character sequence [src] does not have the same length as list [dst].
  */
-fun buildCorrespondence(src: CharSequence, dst: CharSequence): CorrespondenceMap {
-    require(src.length == dst.length) { "Character sequences src and dst must be of the same length" }
+fun buildCorrespondence(src: CharSequence, dst: List<Int>): CorrespondenceMap {
+    require(src.length == dst.size) { "Character sequence src must have the same length as list dst" }
     val correspondence = IntArray(NUMBER_OF_LETTERS_IN_ALPHABET)
     for (i in src.indices) {
-        correspondence[src[i] - 'A'] = dst[i] - '0'
+        correspondence[src[i] - 'A'] = dst[i]
     }
     return CorrespondenceMap(correspondence)
 }
