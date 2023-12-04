@@ -26,8 +26,10 @@ private val DECIMAL_DIGITS = (0..<DECIMAL).toList()
 fun solve(formula: String): Sequence<String> = sequence {
     val letters = formula.filter { it in 'A'..'Z' }.toSet().joinToString(separator = "")
     if (letters.length > DECIMAL) return@sequence
-    val lettersThatCannotBeZero = FIRST_LETTERS.findAll(formula).map { it.value.first() }.toSet()
     val expression = parse(formula)
+    val lettersThatCannotBeZero =
+        FIRST_LETTERS.findAll(formula).map { it.value.first() }.distinct().toList().toCharArray()
+
     for (digits in DECIMAL_DIGITS.permutations(letters.length)) {
         val corr = buildCorrespondence(letters, digits)
         if (lettersThatCannotBeZero.none { corr[it] == 0 } && eval(formula, expression, corr) != 0) {
