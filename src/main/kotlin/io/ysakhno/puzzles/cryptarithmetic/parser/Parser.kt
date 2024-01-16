@@ -1,6 +1,7 @@
 package io.ysakhno.puzzles.cryptarithmetic.parser
 
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.ASTERISK
+import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.CIRCUMFLEX
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.EOE
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.EQUALS
 import io.ysakhno.puzzles.cryptarithmetic.parser.TokenType.GREATER_EQUALS
@@ -125,13 +126,28 @@ private class Parser(private val text: CharSequence) {
      *
      * ```
      *     MultiplicativeExpression
-     *         : PrimaryExpression
-     *         | MultiplicativeExpression ( <ASTERISK> | <SLASH> ) PrimaryExpression
+     *         : ExponentiationExpression
+     *         | MultiplicativeExpression ( <ASTERISK> | <SLASH> ) ExponentiationExpression
      *         ;
      * ```
      */
     private fun parseMultiplicativeExpression() =
-        handleLeftAssociativeBinaryRule(::parsePrimaryExpression, ASTERISK, SLASH)
+        handleLeftAssociativeBinaryRule(::parseExponentiationExpression, ASTERISK, SLASH)
+
+    /**
+     * Parses production of the `ExponentiationExpression` nonterminal.
+     *
+     * ```
+     *     ExponentiationExpression
+     *         : PrimaryExpression
+     *         | PrimaryExpression <CIRCUMFLEX> ExponentiationExpression
+     *         ;
+     * ```
+     */
+    private fun parseExponentiationExpression(): Expression = parsePrimaryExpression().let { left ->
+        if (current.type != CIRCUMFLEX) left
+        else BinaryExpression(left, consume().binaryOperation, parseExponentiationExpression())
+    }
 
     /**
      * Parses production of the `PrimaryExpression` nonterminal.

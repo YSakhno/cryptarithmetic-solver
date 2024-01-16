@@ -36,7 +36,25 @@ enum class TokenType(val binaryOperation: BinaryOperation? = null) {
      */
 
     /** Circumflex (`^`) (a.k.a. "caret").  Used to provide exponentiation (raising to power) in the expression. */
-    CIRCUMFLEX,
+    CIRCUMFLEX(
+        binaryOperation = { base, exp ->
+            if (exp != 0) {
+                var n = exp
+                var x = base
+                var y = 1
+
+                while (n > 1) {
+                    if (n and 1 != 0) {
+                        y *= x
+                        --n
+                    }
+                    x *= x
+                    n = n shr 1
+                }
+                x * y
+            } else 1
+        },
+    ),
 
     /** Asterisk (`*`) (a.k.a. "star").  Used to denote arithmetic multiplication operation in the expression. */
     ASTERISK(binaryOperation = { lhs, rhs -> lhs * rhs }),

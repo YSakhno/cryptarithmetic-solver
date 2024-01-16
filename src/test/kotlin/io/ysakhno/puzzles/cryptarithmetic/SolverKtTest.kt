@@ -27,7 +27,16 @@ class SolverKtTest : FunSpec({
     context("multiple solutions") {
         withData(
             solution("X + X = X * X", "0 + 0 = 0 * 0", "2 + 2 = 2 * 2"),
-            solution("A*A + B*B = C*C", "3*3 + 4*4 = 5*5", "4*4 + 3*3 = 5*5"),
+            solution("A^2 + B^2 = C^2", "3^2 + 4^2 = 5^2", "4^2 + 3^2 = 5^2"),
+            solution(
+                "A^2 + BE^2 = BY^2",
+                "5^2 + 12^2 = 13^2",
+                "7^2 + 24^2 = 25^2",
+                "8^2 + 15^2 = 17^2",
+                "9^2 + 12^2 = 15^2",
+                "9^2 + 40^2 = 41^2",
+            ),
+            solution("ATOM = (A + TO + M)^2", "1296 = (1 + 29 + 6)^2", "6724 = (6 + 72 + 4)^2"),
             solution("I+I = ME", "5+5 = 10", "6+6 = 12", "7+7 = 14", "8+8 = 16", "9+9 = 18"),
             solution(
                 "A + B + C = A * B * C",
@@ -77,15 +86,17 @@ class SolverKtTest : FunSpec({
             solution("FIVE + FIVE + NINE + ELEVEN = THIRTY", "4027 + 4027 + 5057 + 797275 = 810386"),
             solution("NINE + SEVEN + SEVEN + SEVEN = THIRTY", "3239 + 49793 + 49793 + 49793 = 152618"),
             solution("THREE + THREE + THREE + ELEVEN = TWENTY", "73544 + 73544 + 73544 + 494046 = 714678"),
-            solution("II * II = IZI", "11 * 11 = 121"),
+            solution("II^Z = IZI", "11^2 = 121"),
             solution("GO * ON = TROT", "27 * 73 = 1971"),
             solution("G * G - E = EE", "6 * 6 - 3 = 33"),
             solution("LINDON * B = JOHNSON", "570140 * 6 = 3420840"),
             solution("O+CX*Z*C*Z*CX+O=COZY", "0+16*2*1*2*16+0=1024"),
-            solution(
-                "TAXI*2 - (T*T*T + TX*TX*TX) = I*I*I + TY*TY*TY",
-                "1729*2 - (1*1*1 + 12*12*12) = 9*9*9 + 10*10*10",
-            ),
+            solution("TAXI*2 - (T^3 + TX^3) = I^3 + TY^3", "1729*2 - (1^3 + 12^3) = 9^3 + 10^3"),
+            solution("N^3 + RX^3 = R^3 + RM^3", "9^3 + 10^3 = 1^3 + 12^3"),
+            solution("ATOM = (A + TO + M)^T", "1296 = (1 + 29 + 6)^2"),
+            solution("ATOM = (A + TO + M)^O", "6724 = (6 + 72 + 4)^2"),
+            solution("O^O^P = OMG", "2^2^3 = 256"),
+            solution("S^LO = LOST", "2^10 = 1024"),
             solution("X / X = X", "1 / 1 = 1"),
             solution("ABCDE / 4 = EDCBA", "87912 / 4 = 21978"),
         ) { spec ->
