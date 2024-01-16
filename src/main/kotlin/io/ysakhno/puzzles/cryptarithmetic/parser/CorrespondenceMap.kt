@@ -16,10 +16,16 @@ class CorrespondenceMap internal constructor(private val correspondence: IntArra
         }
     }
 
-    /** Returns the number (digit) corresponding to the given Latin letter, or `0` if there is no correspondence. */
+    /**
+     * Returns the number (digit) corresponding to the given Latin letter [ch], or `0` if there is no correspondence.
+     *
+     * As a matter of courtesy to the user, this function accepts decimal digits ('`0`' through '`9`') as the input
+     * character [ch], in which case it returns the integer matching that digit.  For example, for decimal digit
+     * character '`7`', it returns the integer number `7`.
+     */
     operator fun get(ch: Char): Int {
-        require(ch in 'A'..'Z') { "Index must be a Latin letter" }
-        return correspondence[ch - 'A']
+        require(ch in '0'..'9' || ch in 'A'..'Z') { "Index must be a decimal digit or a Latin letter" }
+        return if (ch in '0'..'9') ch.digitToInt(DECIMAL) else correspondence[ch - 'A']
     }
 }
 

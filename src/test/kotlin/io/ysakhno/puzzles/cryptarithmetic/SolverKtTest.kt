@@ -124,4 +124,13 @@ class SolverKtTest : FunSpec({
             =90393
         """.trimIndent().replace("\\s+", "")
     }
+    context("puzzle with clues") {
+        withData(
+            solution("A2C4*2 = 2E6F", "1234*2 = 2468"),
+            solution("1A + 5 = B3", "18 + 5 = 23"),
+        ) { spec ->
+            val solution = solve(spec.puzzle)
+            solution shouldContainExactly spec.formulas.asSequence()
+        }
+    }
 })

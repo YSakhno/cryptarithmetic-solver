@@ -33,6 +33,7 @@ class Tokenizer(expression: CharSequence) {
         var curPos = 0
         @Suppress("LoopWithTooManyJumpStatements") // the loop is complex for performance reasons
         while (curPos < text.length) {
+            var isVariable = false
             when (text[curPos]) {
                 '(' -> add(Token(LEFT_PAREN, curPos..curPos))
                 ')' -> add(Token(RIGHT_PAREN, curPos..curPos))
@@ -53,21 +54,12 @@ class Tokenizer(expression: CharSequence) {
                     ++curPos
                 } else add(Token(GREATER_THAN, curPos..curPos))
 
-                in '0'..'9' -> {
+                in '0'..'9', in 'A'..'Z' -> {
                     val start = curPos
                     do {
-                        ++curPos
-                    } while (curPos < text.length && text[curPos] in '0'..'9')
-                    add(Token(NUMBER, start..<curPos))
-                    continue
-                }
-
-                in 'A'..'Z' -> {
-                    val start = curPos
-                    do {
-                        ++curPos
-                    } while (curPos < text.length && text[curPos] in 'A'..'Z')
-                    add(Token(VARIABLE, start..<curPos))
+                        if (text[curPos++] in 'A'..'Z') isVariable = true
+                    } while (curPos < text.length && (text[curPos] in '0'..'9' || text[curPos] in 'A'..'Z'))
+                    add(Token(if (isVariable) VARIABLE else NUMBER, start..<curPos))
                     continue
                 }
 
