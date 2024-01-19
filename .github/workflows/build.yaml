@@ -74,3 +74,4 @@ jobs:
         with:
           name: Cryptarithmetic-Solver-reports
           path: artifacts/reports/
+          compression-level: 9
