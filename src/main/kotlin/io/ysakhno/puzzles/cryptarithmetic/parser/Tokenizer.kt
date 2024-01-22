@@ -74,6 +74,6 @@ class Tokenizer(expression: CharSequence) {
             }
             ++curPos
         }
-        add(Token(EOE, text.length..text.length))
+        add(Token(EOE, text.length..<text.length))
     }
 }
