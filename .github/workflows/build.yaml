@@ -63,7 +63,7 @@ jobs:
       - name: Collect KDocs
         run: |
           mkdir --parents artifacts/dokka
-          cp --preserve=mode,ownership,timestamps --recursive "build/dokka/html/*" artifacts/dokka/
+          cp --preserve=mode,ownership,timestamps --recursive build/dokka/html/* artifacts/dokka/
 
       - name: Upload KDocs
         uses: actions/upload-artifact@v4.2.0
@@ -77,7 +77,7 @@ jobs:
         run: |
           mkdir --parents artifacts/reports
           if [[ -d "build/reports" ]]; then
-              cp --preserve=mode,ownership,timestamps --recursive "build/reports/*" artifacts/reports/
+              cp --preserve=mode,ownership,timestamps --recursive build/reports/* artifacts/reports/
           fi
 
       - name: Upload Reports
