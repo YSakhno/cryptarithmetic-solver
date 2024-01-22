@@ -135,6 +135,8 @@ style:
     active: true
   DataClassShouldBeImmutable:
     active: true
+  DestructuringDeclarationWithTooManyEntries:
+    maxDestructuringEntries: 4  # 3 is a bit on the low side, 4 should still be fine
   EqualsOnSignatureLine:
     active: true
   ExplicitCollectionElementAccessMethod:

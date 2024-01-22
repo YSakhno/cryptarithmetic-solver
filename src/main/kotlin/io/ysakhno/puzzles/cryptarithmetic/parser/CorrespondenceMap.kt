@@ -1,7 +1,7 @@
 package io.ysakhno.puzzles.cryptarithmetic.parser
 
 /** The number of Latin letters in the alphabet. */
-private const val NUMBER_OF_LETTERS_IN_ALPHABET: Int = 26
+internal const val NUMBER_OF_LETTERS_IN_ALPHABET: Int = 26
 
 /**
  * The correspondence map used to define Latin letter to decimal digit correspondence.
